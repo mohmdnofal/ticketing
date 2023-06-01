@@ -34,3 +34,4 @@ jobs:
           registry: ${{ secrets.AZURE_CONTAINER_REGISTRY }}
           repository: ticketing
           image: auth
+          folder: auth
