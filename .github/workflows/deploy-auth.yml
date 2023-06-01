@@ -26,7 +26,7 @@ jobs:
       - name: Build and push image to ACR
         run: |
           az acr build --image $AZURE_CONTAINER_REGISTRY.azurecr.io/$CONTAINER_NAME --registry AZURE_CONTAINER_REGISTRY -g RESOURCE_GROUP .
-         env: 
+        env: 
           AZURE_CONTAINER_REGISTRY: ${{ secrets.AZURE_CONTAINER_REGISTRY }}
           CONTAINER_NAME: auth
           RESOURCE_GROUP: ${{ secrets.RESOURCE_GROUP }} 
