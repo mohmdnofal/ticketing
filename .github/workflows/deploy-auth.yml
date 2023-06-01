@@ -9,6 +9,9 @@ on:
 
 jobs:
   buildImage:
+    permissions:
+      contents: read
+      packages: write
     runs-on: ubuntu-latest
     steps:
       # Checks out the repository this file is in
