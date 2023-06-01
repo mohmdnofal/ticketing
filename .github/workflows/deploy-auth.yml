@@ -22,13 +22,15 @@ jobs:
         uses: azure/login@v1.4.6
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-          
-
+  
       # Builds and pushes an image up to your Azure Container Registry
       - name: Build and push image to ACR
-        run: |
-          az acr build --image $AZURE_CONTAINER_REGISTRY.azurecr.io/$CONTAINER_NAME --registry AZURE_CONTAINER_REGISTRY -g RESOURCE_GROUP .
-        env: 
-          AZURE_CONTAINER_REGISTRY: ${{ secrets.AZURE_CONTAINER_REGISTRY }}
-          CONTAINER_NAME: auth
-          RESOURCE_GROUP: ${{ secrets.RESOURCE_GROUP }} 
+        id: acr
+        uses: azure/acr-build@v1
+        with:
+          service_principal: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
+          service_principal_password: ${{ secrets.AZURE_SERVICE_PRINCIPAL_SECRET }}
+          tenant: ${{ secrets.AZURE_TENANT_ID }}
+          registry: ${{ secrets.AZURE_CONTAINER_REGISTRY }}
+          repository: ticketing
+          image: auth
