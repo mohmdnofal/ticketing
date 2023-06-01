@@ -1,0 +1,55 @@
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: ticketing
+build:
+  artifacts:
+  - image: moacrnorth.azurecr.io/ticketing/auth
+    context: auth
+    docker:
+      dockerfile: Dockerfile
+  - image: moacrnorth.azurecr.io/ticketing/client
+    context: client
+    docker:
+      dockerfile: Dockerfile
+    # sync:
+    #   manual:
+    #     - src: 'src/**/*.ts'
+    #       dest: .
+  - image: moacrnorth.azurecr.io/ticketing/tickets
+    context: tickets
+    docker:
+      dockerfile: Dockerfile
+    # sync:
+    #   manual:
+    #     - src: 'src/**/*.ts'
+    #       dest: .    
+  - image: moacrnorth.azurecr.io/ticketing/orders
+    context: orders
+    docker:
+      dockerfile: Dockerfile
+    # sync:
+    #   manual:
+    #     - src: 'src/**/*.ts'
+    #       dest: .        
+  - image: moacrnorth.azurecr.io/ticketing/expiration
+    context: expiration
+    docker:
+      dockerfile: Dockerfile
+    # sync:
+    #   manual:
+    #     - src: 'src/**/*.ts'
+    #       dest: .            
+  - image: moacrnorth.azurecr.io/ticketing/payments
+    context: payments
+    docker:
+      dockerfile: Dockerfile
+    # sync:
+    #   manual:
+    #     - src: 'src/**/*.ts'
+    #       dest: .              
+manifests:
+  rawYaml:
+  - infra/k8s/auth-depl.yaml
+  - infra/k8s/ingress-srv.yaml
+  - infra/k8s/*

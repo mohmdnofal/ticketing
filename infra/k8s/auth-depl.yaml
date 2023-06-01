@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  auth-depl
+  namespace: default
+  labels:
+    app:  auth-depl
+spec:
+  selector:
+    matchLabels:
+      app: auth-depl
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app:  auth-depl
+    spec:
+      # initContainers:
+        # Init containers are exactly like regular containers, except:
+          # - Init containers always run to completion.
+          # - Each init container must complete successfully before the next one starts.
+      containers:
+      - name:  auth-depl
+        image: moacrnorth.azurecr.io/ticketing/auth
+        env:
+          - name: MONGO_URI
+            value: 'mongodb://auth-mongo-svc:27017/auth'
+          - name: JWT_KEY
+            valueFrom:
+              secretKeyRef:
+                name: jwt-secret
+                key: JWT_KEY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-svc
+  namespace: default
+spec:
+  selector:
+    app: auth-depl
+  type: ClusterIP
+  sessionAffinity: None
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800
+  ports:
+  - name: auth-depl-3000
+    protocol: TCP
+    port: 3000
+    targetPort: 3000
