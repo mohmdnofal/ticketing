@@ -1,0 +1,43 @@
+name: deploy-infra-manifests
+
+on:
+  push:
+    branches: ["master"]
+    paths:
+      - 'infra/**'
+
+
+jobs:
+  build:
+    permissions:
+      contents: read
+      packages: write
+    runs-on: ubuntu-latest
+    steps:
+      # Checks out the repository this file is in
+      - uses: actions/checkout@v3
+
+      # Logs in with your Azure credentials
+      - name: Azure login
+        uses: azure/login@v1.4.6
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+  
+      # Setup aks context 
+      - name: Set AKS context
+        id: set-context
+        uses: azure/aks-set-context@v3
+        with:
+          resource-group: '${{ secrets.RESOURCE_GROUP }}' 
+          cluster-name: '${{ secrets.CLUSTER_NAME }}'
+      # setup kubectel     
+      - name: Setup kubectl
+        id: install-kubectl
+        uses: azure/setup-kubectl@v3
+      - name: Deploy to AKS
+        id: deploy-aks
+        uses: Azure/k8s-deploy@v4
+        with:
+          namespace: 'default'
+          manifests: ./
+          pull-images: false   
