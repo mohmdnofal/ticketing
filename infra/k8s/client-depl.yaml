@@ -27,6 +27,7 @@ spec:
       containers:
       - name:  client-depl
         image: moacrnorth.azurecr.io/ticketing/client
+        imagePullPolicy: Always
         env:
           - name: JWT_KEY
             valueFrom:

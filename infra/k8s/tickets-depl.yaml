@@ -27,6 +27,7 @@ spec:
       containers:
       - name:  tickets-depl
         image: moacrnorth.azurecr.io/ticketing/tickets
+        imagePullPolicy: Always
         env:
           - name: NATS_CLIENT_ID
             valueFrom:

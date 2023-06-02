@@ -27,6 +27,7 @@ spec:
       containers:
       - name:  expiration-depl
         image: moacrnorth.azurecr.io/ticketing/expiration
+        imagePullPolicy: Always
         env:
           - name: NATS_CLIENT_ID
             valueFrom:

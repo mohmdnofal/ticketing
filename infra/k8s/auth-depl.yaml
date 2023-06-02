@@ -27,6 +27,7 @@ spec:
       containers:
       - name:  auth-depl
         image: moacrnorth.azurecr.io/ticketing/auth
+        imagePullPolicy: Always
         env:
           - name: MONGO_URI
             value: 'mongodb://auth-mongo-svc:27017/auth'

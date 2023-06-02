@@ -35,3 +35,4 @@ jobs:
           repository: ticketing
           image: auth
           folder: auth
+          tag: ${{ github.sha }}
