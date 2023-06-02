@@ -20,10 +20,6 @@ spec:
       labels:
         app:  auth-depl
     spec:
-      # initContainers:
-        # Init containers are exactly like regular containers, except:
-          # - Init containers always run to completion.
-          # - Each init container must complete successfully before the next one starts.
       containers:
       - name:  auth-depl
         image: moacrnorth.azurecr.io/ticketing/auth
